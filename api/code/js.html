@@ -1,0 +1,202 @@
+ // Estilização de categorias - versão corrigida (function () { 'use strict'; if (window.categoriaEstilizada) return; window.categoriaEstilizada = true; let categoriasEstilizadas = new WeakSet(); function isPaginaInicial() { const path = window.location.pathname;
+return path === '/' || path === '/index.html' || path === '' || path === '/index.php'; } function removerEstilosCategoria() { const categorias = document.querySelectorAll('div.sc-5dfe3080-2.kmSTSp > h1.sc-296417d8-0.hVzvPG'); categorias.forEach(cat =>
+{ if (cat.hasAttribute('data-estilizado')) { cat.removeAttribute('style'); cat.removeAttribute('data-estilizado'); } }); console.log('Estilos das categorias removidos.'); } function temEmoji(texto) { const emojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
+return emojiRegex.test(texto); } function deveEstilizar(elemento) { // Verifica se está dentro do container correto const parent = elemento.parentElement; if (!parent || !parent.classList.contains('sc-5dfe3080-2') || !parent.classList.contains('kmSTSp'))
+{ return false; } // Verifica o texto const texto = elemento.textContent.trim(); // Ignora textos sem emoji if (!temEmoji(texto)) { return false; } // Ignora textos relacionados a comentários, avaliações, etc const textoLower = texto.toLowerCase(); const
+ignorar = ['comentário', 'avaliações', 'esgotado', 'review', 'rating']; if (ignorar.some(palavra => textoLower.includes(palavra))) { return false; } // Verifica tamanho da fonte original const fontSize = parseInt(window.getComputedStyle(elemento).fontSize);
+if (fontSize
+<=1 2) { return false; } return true; } function estilizarCategorias() { // Remove estilos se não estiver na página inicial if (!isPaginaInicial()) { removerEstilosCategoria(); return false; } // Seletor específico: div> h1 com as classes exatas const categorias = document.querySelectorAll('div.sc-5dfe3080-2.kmSTSp > h1.sc-296417d8-0.hVzvPG'); if (categorias.length === 0) return false; let estilizadas = 0; categorias.forEach((categoria) => { // Pula se não deve estilizar
+    if (!deveEstilizar(categoria)) { return; } // Pula se já foi estilizado if (categoriasEstilizadas.has(categoria)) { return; } // Remove estilos anteriores categoria.removeAttribute('style'); // Aplica novos estilos Object.assign(categoria.style, {
+    background: 'rgba(26, 26, 46, 0.25)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '2px solid #a600ff', borderRadius: '20px', padding: '10px 20px', fontSize: '13px', lineHeight: '20px', fontWeight: '700', color: '#ffffff',
+    letterSpacing: '2px', textTransform: 'uppercase', position: 'relative', overflow: 'visible', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px #a600ff, 0 0 30px rgba(166, 0, 255, 0.4), 0 4px 20px rgba(0,
+    0, 0, 0.3)', margin: '0 auto', transition: 'all 0.3s ease', maxWidth: '100%', boxSizing: 'border-box' }); // Marca como estilizado categoria.setAttribute('data-estilizado', 'true'); categoriasEstilizadas.add(categoria); estilizadas++; console.log('✅
+    Categoria estilizada:', categoria.textContent.trim()); }); if (estilizadas > 0) { console.log(`✨ ${estilizadas} categoria(s) estilizada(s) com sucesso.`); } return true; } // Executa na inicialização setTimeout(estilizarCategorias, 100); // Observer
+    para mudanças no DOM const observer = new MutationObserver(() => { if (isPaginaInicial()) { estilizarCategorias(); } }); observer.observe(document.body, { childList: true, subtree: true }); // Monitora mudanças de URL let currentPath = window.location.pathname;
+    setInterval(() => { if (window.location.pathname !== currentPath) { currentPath = window.location.pathname; console.log('📍 URL mudou para:', currentPath); setTimeout(estilizarCategorias, 200); } }, 500); })(); // icon pix function addPixIcons() {
+    const deliveryIcons = document.querySelectorAll('[data-tooltip="Entrega Automática"]'); const categoria = document.querySelectorAll('[data-tooltip="Anúncio Dinâmico"]'); function addPixIcon(icon) { if (!icon.hasAttribute('data-pix-added')) { const
+    pixImg = document.createElement('img'); pixImg.src = 'https://i.ibb.co/hxLnzdvc/Design-sem-nome-63.png'; pixImg.alt = 'Pix'; pixImg.width = 15; pixImg.height = 15; pixImg.style.marginLeft = '5px'; pixImg.style.display = 'inline-block'; pixImg.style.verticalAlign
+    = 'middle'; pixImg.loading = 'lazy'; icon.parentNode.insertBefore(pixImg, icon.nextSibling); icon.setAttribute('data-pix-added', 'true'); } } deliveryIcons.forEach(addPixIcon); categoria.forEach(addPixIcon); } const interval = setInterval(addPixIcons,
+    300); setTimeout(() => clearInterval(interval), 5000); const observer2 = new MutationObserver(addPixIcons); observer2.observe(document.body, { childList: true, subtree: true }); window.addEventListener('load', addPixIcons); (function () { 'use strict';
+    /* --- Selo de Verificado --- */ (function () { 'use strict'; function addVerifiedBadge() { const storeNameSelector = 'header a[href="/"] span'; const storeNameElement = document.querySelector(storeNameSelector); if (!storeNameElement || storeNameElement.classList.contains('badge-applied'))
+    { return; } const badge = document.createElement('img'); badge.src = 'https://i.ibb.co/JRXvR6Gs/Design-sem-nome-43.png'; badge.alt = 'Verificado'; badge.style.cssText = 'width: 17px; height: 17px; vertical-align: middle; margin-left: 2px; display:
+    inline - block; '; storeNameElement.appendChild(badge); storeNameElement.classList.add('badge-applied'); storeNameElement.style.display = 'inline-flex'; storeNameElement.style.alignItems = 'center'; } const observer = new MutationObserver(addVerifiedBadge);
+    observer.observe(document.body, { childList: true, subtree: true }); addVerifiedBadge(); })(); })(); // Hero (function () { 'use strict'; // CONFIGURAÇÕES - PERSONALIZE AQUI const config = { storeName: 'Loja do ZK', heroTitle: 'Sua Loja Digital de
+    <span class="highlight">Confiança</span>', heroDescription: 'é o segredo de quem entendeu o Jogo! Somos seu fornecedor de confiança com os melhores preços, qualidade premium e suporte humanizado.', badgeText: 'Loja Verificada e Segura', badges: [
+    { icon: 'shield', text: '100% Seguro' }, { icon: 'truck', text: 'Entrega Rápida' }, { icon: 'award', text: 'Garantia Premium' }, { icon: 'headphones', text: 'Suporte 24/7' } ], stats: [ { number: '1000+', label: 'Clientes Satisfeitos' }, { number:
+    '4.8/5', label: 'Avaliação Média' }, { number: '99.5%', label: 'Taxa de Satisfação' } ], primaryButtonText: 'Ver Produtos', productSelectors: [ '.sc-5dfe3080-0', '#COMPONENT_PRODUCTS_CARDS', '.products-section', '.sc-bfa3a7a7-2', '.sc-bfa3a7a7-3',
+    '[data-section="products"]' ] }; const icons = { shield: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>', truck:
+    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-9H17V12h4.46L19.5 9.5zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>',
+    award: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>', headphones: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg>',
+    cart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>'
+    }; function createHeroHTML() { const badgesHTML = config.badges.map(badge => `
+    <div class="info-badge">
+        ${icons[badge.icon]}
+        <span>${badge.text}</span>
+    </div>
+    `).join(''); const statsHTML = config.stats.map(stat => `
+    <div class="stat-item">
+        <span class="stat-number">${stat.number}</span>
+        <span class="stat-label">${stat.label}</span>
+    </div>
+    `).join(''); return `
+    <div class="boaplay-hero">
+        <div class="boaplay-hero-content">
+            <span class="quality-badge">
+                        ${config.badgeText}
+                    </span>
+
+            <h1>${config.heroTitle}</h1>
+
+            <p>
+                A <span class="store-name">${config.storeName}</span> ${config.heroDescription}
+            </p>
+
+            <div class="info-badges">
+                ${badgesHTML}
+            </div>
+
+            <div class="stats-container">
+                ${statsHTML}
+            </div>
+
+            <div class="boaplay-buttons">
+                <button id="explorar-catalogo-hero" class="btn-explorar">
+                            ${icons.cart}
+                            ${config.primaryButtonText}
+                        </button>
+            </div>
+        </div>
+    </div>
+    `; } function criarHero(target) { if (target.querySelector('.boaplay-hero')) return; target.insertAdjacentHTML('afterbegin', createHeroHTML()); setTimeout(() => { setupEventListeners(); animateStats(); addRippleEffect(); addHoverEffects(); }, 100); console.log('[Hero
+    Section Premium] Injetado com sucesso! 🚀'); } function verificarECriar() { const targetElement = document.querySelector('.sc-bce61202-0.eqzQsx'); if (targetElement && !targetElement.querySelector('.boaplay-hero')) { criarHero(targetElement); } }
+    function setupEventListeners() { const heroContainer = document.querySelector('.boaplay-hero'); if (!heroContainer) return; const explorarBtn = heroContainer.querySelector('#explorar-catalogo-hero'); if (explorarBtn) { explorarBtn.addEventListener('click',
+    scrollToProducts); } } function scrollToProducts() { for (const selector of config.productSelectors) { const element = document.querySelector(selector); if (element) { const offset = 100; const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - offset; window.scrollTo({ top: offsetPosition, behavior: 'smooth' }); return; } } } function animateStats() { const statNumbers = document.querySelectorAll('.stat-number'); statNumbers.forEach(stat
+    => { const text = stat.textContent; if (text.includes('+')) { const target = parseInt(text.replace(/\D/g, '')); animateNumber(stat, 0, target, 2000, '+'); } }); } function animateNumber(element, start, end, duration, suffix = '') { const range = end
+    - start; const increment = range / (duration / 16); let current = start; const timer = setInterval(() => { current += increment; if (current >= end) { element.textContent = end + suffix; clearInterval(timer); } else { element.textContent = Math.floor(current)
+    + suffix; } }, 16); } function addRippleEffect() { const buttons = document.querySelectorAll('.boaplay-buttons button'); buttons.forEach(button => { button.addEventListener('click', function (e) { const ripple = document.createElement('span'); const
+    rect = this.getBoundingClientRect(); const size = Math.max(rect.width, rect.height); const x = e.clientX - rect.left - size / 2; const y = e.clientY - rect.top - size / 2; ripple.style.cssText = ` position: absolute; width: ${size}px; height: ${size}px;
+    border-radius: 50%; background: rgba(255, 255, 255, 0.4); left: ${x}px; top: ${y}px; pointer-events: none; animation: rippleEffect 0.6s ease-out; `; this.appendChild(ripple); setTimeout(() => ripple.remove(), 600); }); }); if (!document.getElementById('ripple-animation'))
+    { const style = document.createElement('style'); style.id = 'ripple-animation'; style.textContent = ` @keyframes rippleEffect { from { transform: scale(0); opacity: 1; } to { transform: scale(2); opacity: 0; } } `; document.head.appendChild(style);
+    } } function addHoverEffects() { const badges = document.querySelectorAll('.info-badge'); const stats = document.querySelectorAll('.stat-item'); [...badges, ...stats].forEach(item => { item.addEventListener('mouseenter', function () { this.style.transition
+    = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'; }); }); } function setupIntersectionObserver() { const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -100px 0px' }; const observer = new IntersectionObserver((entries) => { entries.forEach(entry
+    => { if (entry.isIntersecting) { entry.target.style.animationPlayState = 'running'; } }); }, observerOptions); setTimeout(() => { const animatedElements = document.querySelectorAll( '.quality-badge, .boaplay-hero-content h1, .info-badges, .stats-container,
+    .boaplay-buttons' ); animatedElements.forEach(el => { if (el) observer.observe(el); }); }, 200); } verificarECriar(); const observer = new MutationObserver(() => { verificarECriar(); }); observer.observe(document.body, { childList: true, subtree:
+    true }); let currentUrl = window.location.href; new MutationObserver(() => { if (currentUrl !== window.location.href) { currentUrl = window.location.href; setTimeout(verificarECriar, 100); } }).observe(document.body, { subtree: true, childList: true
+    }); window.addEventListener('popstate', () => { setTimeout(verificarECriar, 100); }); if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', setupIntersectionObserver); } else { setupIntersectionObserver(); } console.log('[Hero
+    Section Premium] Script carregado! 💜'); })(); //pops (function () { 'use strict'; const nickoFontAwesome = document.createElement('link'); nickoFontAwesome.rel = 'stylesheet'; nickoFontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+    document.head.appendChild(nickoFontAwesome); const nickoStyle = document.createElement('style'); nickoStyle.textContent = ` .ynicko-stats-popup { position: fixed; bottom: 25px; left: 25px; background: rgba(20, 20, 25, 0.7); backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(148, 0, 211, 1); border-radius: 16px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; z-index: 10001; box-shadow: 0 10px 30px rgba(187, 0, 255, 0.5); transition: all 0.6s
+    cubic-bezier(0.23, 1, 0.32, 1); transform: translateX(-120%); opacity: 0; font-family: 'Plus Jakarta Sans', sans-serif; pointer-events: none; } .ynicko-stats-popup.active { transform: translateX(0); opacity: 1; } .ynicko-stats-icon { width: 32px;
+    height: 32px; background: #9400D3; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white !important; box-shadow: 0 0 15px rgba(187, 0, 255, 0.5); flex-shrink: 0; } .ynicko-stats-icon i { color: white !important;
+    font-size: 16px; } .ynicko-stats-text { color: #9400D3; font-size: 14px; line-height: 1.4; } .ynicko-stats-text strong { color: #9400D3; font-weight: 700; } @media (max-width: 768px) { .ynicko-stats-popup { bottom: 15px; left: 15px; right: 15px; padding:
+    12px; } } `; document.head.appendChild(nickoStyle); const nickoGerarMensagem = () => { const nickoStats = [ `Tem <strong>${Math.floor(Math.random() * 15) + 5} pessoas</strong> online na loja agora.`, `
+    <strong>${Math.floor(Math.random() * 8) + 2} usuários</strong> estão visualizando produtos.`, `Alta demanda! <strong>${Math.floor(Math.random() * 20) + 10} visitas</strong> na última hora.`, `Suporte online: <strong>Resposta em menos de 5 min.</strong>`,
+    `Mais de <strong>${Math.floor(Math.random() * 5) + 3} pessoas</strong> de olho nesse catálogo.` ]; return nickoStats[Math.floor(Math.random() * nickoStats.length)]; }; function nickoShowStats() { const existingPopup = document.querySelector('.ynicko-stats-popup');
+    if (existingPopup) existingPopup.remove(); const nickoContainer = document.createElement('div'); nickoContainer.className = 'ynicko-stats-popup'; nickoContainer.innerHTML = `
+    <div class="ynicko-stats-icon">
+        <i class="fa-solid fa-chart-line"></i>
+    </div>
+    <div class="ynicko-stats-text">
+        ${nickoGerarMensagem()}
+    </div>
+    `; document.body.appendChild(nickoContainer); setTimeout(() => nickoContainer.classList.add('active'), 100); setTimeout(() => { nickoContainer.classList.remove('active'); setTimeout(() => nickoContainer.remove(), 600); }, 5000); } function nickoStartLoop()
+    { setTimeout(nickoShowStats, 2000); setInterval(() => { nickoShowStats(); }, Math.random() * (30000 - 15000) + 15000); } if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', nickoStartLoop); } else { nickoStartLoop();
+    } })(); // ocultar a ereemby (function () { const removerPoweredBy = () => { const h1s = document.querySelectorAll('h1'); h1s.forEach(h1 => { const texto = h1.textContent.trim().toLowerCase(); if (texto === 'powered by ereemby') { h1.remove(); } });
+    }; const observer = new MutationObserver(() => removerPoweredBy()); observer.observe(document.body, { childList: true, subtree: true }); document.addEventListener('DOMContentLoaded', removerPoweredBy); })(); //------------ Faixa informações -------
+    const style = document.createElement('style'); style.textContent = ` .marquee-container { width: 100%; overflow: hidden; background: #000000; color: #ffffff; padding: 8px 0; font-size: 14px; font-weight: 500; } .marquee-track { display: flex; width:
+    max-content; animation: scroll-left 60s linear infinite; } .marquee-content { display: flex; gap: 100px; padding-right: 50px; } .marquee-content span { white-space: nowrap; color: #ffffff; } @keyframes scroll-left { from { transform: translateX(0);
+    } to { transform: translateX(-100%); } } `; document.head.appendChild(style); // Criar o container const container = document.createElement('div'); container.className = 'marquee-container'; const track = document.createElement('div'); track.className
+    = 'marquee-track'; const comentarios = [ "💬 Suporte dedicado para tirar suas dúvidas sempre que precisar!", "✅ Produtos 100% originais e garantidos", "⭐ Qualidade e confiança em cada compra!", "🔒 Compra segura, prática e transparente", "🚀 Entrega
+    imediata após confirmação", "⚡ Atendimento rápido e personalizado" ]; for (let i = 0; i
+    < 3; i++) { const content=d ocument.createElement( 'div'); content.className='marquee-content' ; comentarios.forEach(texto=> { const span = document.createElement('span'); span.textContent = texto; content.appendChild(span); }); track.appendChild(content); } container.appendChild(track); document.body.prepend(container); /* sidebar */ (function () { 'use strict'; setTimeout(function
+        () { initSidebar(); }, 500); function initSidebar() { const menuToggle = document.createElement('button'); menuToggle.className = 'menu-toggle'; menuToggle.setAttribute('aria-label', 'Menu'); menuToggle.innerHTML = '<span></span><span></span><span></span>';
+        const overlay = document.createElement('div'); overlay.className = 'sidebar-overlay'; const sidebar = document.createElement('div'); sidebar.className = 'sidebar-menu'; sidebar.innerHTML = `
+        <button class="sidebar-close" aria-label="Fechar menu">
+                <svg viewBox="0 0 256 256">
+                    <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                </svg>
+            </button>
+
+        <div class="sidebar-user">
+            <div class="sidebar-user-info">
+                <div class="sidebar-user-avatar">
+                    <svg fill="#fff" viewBox="0 0 256 256">
+                            <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+                        </svg>
+                </div>
+                <div>
+                    <div class="sidebar-user-name">Visitante</div>
+                    <div class="sidebar-user-status">Fazer login</div>
+                </div>
+            </div>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="/">
+                        <svg fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.10Z"></path>
+                        </svg>
+                        Início
+                    </a></li>
+
+                <li class="sidebar-category">Destaques</li>
+
+                <li><a href="https://wa.me/5531992916546?text=Olá,%20quero%20me%20Afiliar%20a%20Loja%20do%20ZK">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M240,88.23a54.43,54.43,0,0,1-16,37L189.25,160a54.27,54.27,0,0,1-38.63,16h-.05A54.63,54.63,0,0,1,96,119.84a8,8,0,0,1,16,.45A38.62,38.62,0,0,0,150.58,160h0a38.39,38.39,0,0,0,27.31-11.31l34.75-34.75a38.63,38.63,0,0,0-54.63-54.63l-11,11A8,8,0,0,1,135.7,59l11-11A54.65,54.65,0,0,1,224,48,54.86,54.86,0,0,1,240,88.23ZM109,185.66l-11,11A38.41,38.41,0,0,1,70.6,208h0a38.63,38.63,0,0,1-27.29-65.94L78,107.31A38.63,38.63,0,0,1,144,135.71a8,8,0,0,0,16,.45A54.86,54.86,0,0,0,144,96a54.65,54.65,0,0,0-77.27,0L32,130.75A54.62,54.62,0,0,0,70.56,224h0a54.28,54.28,0,0,0,38.64-16l11-11A8,8,0,0,0,109,185.66Z"></path></svg>
+                            <path d="M247.51,174.39,218,58a16.08,16.08,0,0,0-13-11.88l-36.06-5.92a16.22,16.22,0,0,0-18.26,11.88l-.21.85a4,4,0,0,0,3.27,4.93,155.62,155.62,0,0,1,24.41,5.62,8.2,8.2,0,0,1,4.5,11.48,8,8,0,0,1-11.09,3.59,172.48,172.48,0,0,0-146.31,0,8,8,0,1,1-6.5-14.68,155.62,155.62,0,0,1,24.41-5.62,4,4,0,0,0,3.27-4.93l-.21-.85A16.21,16.21,0,0,0,33,40.19L5,46.11A16.08,16.08,0,0,0-8,58L21.49,174.39a15.92,15.92,0,0,0,9.06,11.51l67,29.71a16.17,16.17,0,0,0,21.71-9.1l3.49-9.45a4,4,0,0,0-3.27-5.35,158.13,158.13,0,0,1-28.63-6.2,8.2,8.2,0,0,1-4.5-11.48,8,8,0,0,1,11.09-3.59,172.48,172.48,0,0,0,146.31,0,8,8,0,1,1,6.5,14.68,158.13,158.13,0,0,1-28.63,6.2,4,4,0,0,0-3.27,5.35l3.49,9.45a16.18,16.18,0,0,0,21.71,9.1l67-29.71A15.92,15.92,0,0,0,247.51,174.39ZM92,152a12,12,0,1,1,12-12A12,12,0,0,1,92,152Zm72,0a12,12,0,1,1,12-12A12,12,0,0,1,164,152Z"></path>
+                        </svg>
+                        Seja Afiliado
+                    </a></li>
+
+                <li><a href="https://chat.whatsapp.com/I7vM3cFIn9c8L4bIM6mBNJ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88,40,40,0,0,0,40-40A8,8,0,0,0,187.58,144.84ZM152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155l14.61-9.74,23,11.48A24,24,0,0,1,152,176ZM128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"></path></svg>
+                            <path d="M176,112H152a8,8,0,0,1,0-16h24a8,8,0,0,1,0,16Zm-24,16a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Zm80-16A104,104,0,1,1,128,8,104.11,104.11,0,0,1,232,112Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,112ZM112,120H96v16a8,8,0,0,1-16,0V120H64a8,8,0,0,1,0-16H80V88a8,8,0,0,1,16,0v16h16a8,8,0,0,1,0,16Z"></path>
+                        </svg>
+                        Grupo Whatsapp
+                    </a></li>
+
+                <li class="sidebar-category">Conta</li>
+
+                <li><a href="/cart">
+                        <svg fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M239.89,198.12l-14.26-120a16,16,0,0,0-16-14.12H176a48,48,0,0,0-96,0H46.33a16,16,0,0,0-16,14.12l-14.26,120A16,16,0,0,0,20,210.6a16.13,16.13,0,0,0,12,5.4H223.92A16.13,16.13,0,0,0,236,210.6,16,16,0,0,0,239.89,198.12ZM128,32a32,32,0,0,1,32,32H96A32,32,0,0,1,128,32ZM32,200,46.33,80H80v24a8,8,0,0,0,16,0V80h64v24a8,8,0,0,0,16,0V80h33.75l14.17,120Z"></path>
+                        </svg>
+                        Carrinho
+                    </a></li>
+
+                <li><a href="/login">
+                        <svg fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"></path>
+                        </svg>
+                        Entrar
+                    </a></li>
+
+                <li class="sidebar-category">Ajuda</li>
+
+                <li><a href="/suporte">
+                        <svg fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M201.89,54.66A103.43,103.43,0,0,0,128.79,24H128A104,104,0,0,0,24,128v56a24,24,0,0,0,24,24H64a24,24,0,0,0,24-24V144a24,24,0,0,0-24-24H40.36A88.12,88.12,0,0,1,190.54,65.93,87.39,87.39,0,0,1,215.65,120H192a24,24,0,0,0-24,24v40a24,24,0,0,0,24,24h24a24,24,0,0,1-24,24H136a8,8,0,0,0,0,16h56a40,40,0,0,0,40-40V128A103.41,103.41,0,0,0,201.89,54.66ZM64,136a8,8,0,0,1,8,8v40a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V136Zm128,56a8,8,0,0,1-8-8V144a8,8,0,0,1,8-8h24v56Z"></path>
+                        </svg>
+                        Suporte
+                    </a></li>
+            </ul>
+        </nav>
+        `; const header = document.querySelector('header'); if (header) { const firstDiv = header.querySelector('div'); if (firstDiv) { firstDiv.insertBefore(menuToggle, firstDiv.firstChild); } } document.body.appendChild(overlay); document.body.appendChild(sidebar);
+        const closeBtn = sidebar.querySelector('.sidebar-close'); function toggleMenu() { menuToggle.classList.toggle('active'); sidebar.classList.toggle('active'); overlay.classList.toggle('active'); document.body.style.overflow = sidebar.classList.contains('active')
+        ? 'hidden' : ''; } function closeMenu() { menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); document.body.style.overflow = ''; } menuToggle.addEventListener('click', toggleMenu); overlay.addEventListener('click',
+        closeMenu); closeBtn.addEventListener('click', closeMenu); sidebar.querySelectorAll('a').forEach(link => { link.addEventListener('click', closeMenu); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && sidebar.classList.contains('active'))
+        { closeMenu(); } }); } })(); (function () { 'use strict'; if (window.produtosAjustados) return; window.produtosAjustados = true; let elementosAjustados = new Set(); console.log('🚀 Script de ajuste de produtos iniciado'); function ajustarProdutos()
+        { let totalAjustado = 0; const titles = document.querySelectorAll('span.sc-72c69f28-17.fDnlrZ, span[class*="sc-72c69f28-17"]'); console.log(`\n📦 Títulos encontrados: ${titles.length}`); titles.forEach((title) => { if (!elementosAjustados.has(title))
+        { const oldSize = window.getComputedStyle(title).fontSize; const newSize = parseFloat(oldSize) * 1.15; title.style.fontSize = `${newSize}px`; title.style.lineHeight = '1.3'; elementosAjustados.add(title); totalAjustado++; console.log(`✅ Título
+        ajustado: ${oldSize} → ${newSize}px`); } }); const pixTexts = document.querySelectorAll('p.sc-72c69f28-22.lkVTbv, p[class*="sc-72c69f28-22"]'); console.log(`\n💳 Textos PIX encontrados: ${pixTexts.length}`); pixTexts.forEach((pix) => { if (!elementosAjustados.has(pix))
+        { const oldSize = window.getComputedStyle(pix).fontSize; const newSize = parseFloat(oldSize) * 1.12; pix.style.fontSize = `${newSize}px`; elementosAjustados.add(pix); totalAjustado++; console.log(`✅ PIX ajustado: ${oldSize} → ${newSize}px`); }
+        }); const currentPrices = document.querySelectorAll('div.sc-72c69f28-21.bzcSjU, div[class*="sc-72c69f28-21"]'); console.log(`\n💰 Preços atuais encontrados: ${currentPrices.length}`); currentPrices.forEach((price) => { if (!elementosAjustados.has(price))
+        { const oldSize = window.getComputedStyle(price).fontSize; const newSize = parseFloat(oldSize) * 1.18; price.style.fontSize = `${newSize}px`; price.style.fontWeight = '700'; elementosAjustados.add(price); totalAjustado++; console.log(`✅ Preço
+        atual ajustado: ${oldSize} → ${newSize}px`); } }); const oldPrices = document.querySelectorAll('div.sc-72c69f28-11.jbTuAX, div[class*="sc-72c69f28-11"]'); console.log(`\n💸 Preços antigos encontrados: ${oldPrices.length}`); oldPrices.forEach((price)
+        => { if (!elementosAjustados.has(price)) { const oldSize = window.getComputedStyle(price).fontSize; const newSize = parseFloat(oldSize) * 1.12; price.style.fontSize = `${newSize}px`; elementosAjustados.add(price); totalAjustado++; console.log(`✅
+        Preço antigo ajustado: ${oldSize} → ${newSize}px`); } }); const buyButtons = document.querySelectorAll('button.sc-72c69f28-28.ftPECm, button.sc-72c69f28-28.dZWRDH, button[class*="sc-72c69f28-28"]'); console.log(`\n🛒 Botões encontrados: ${buyButtons.length}`);
+        buyButtons.forEach((btn) => { if (!elementosAjustados.has(btn)) { const oldSize = window.getComputedStyle(btn).fontSize; const newSize = parseFloat(oldSize) * 1.15; btn.style.fontSize = `${newSize}px`; btn.style.padding = '12px 24px'; btn.style.fontWeight
+        = '600'; elementosAjustados.add(btn); totalAjustado++; console.log(`✅ Botão ajustado: ${oldSize} → ${newSize}px`); } }); if (totalAjustado > 0) { console.log(`\n🎉 ${totalAjustado} elemento(s) ajustado(s) nesta execução!`); } return totalAjustado
+        > 0; } ajustarProdutos(); const observer = new MutationObserver(() => { ajustarProdutos(); }); observer.observe(document.body, { childList: true, subtree: true }); console.log('👀 Observer ativado. Monitorando novos produtos...'); })();
